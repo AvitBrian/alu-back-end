@@ -5,7 +5,6 @@ import json
 import requests
 
 
-
 if __name__ == "__main__":
 
     request_employee = requests.get(
@@ -18,7 +17,7 @@ if __name__ == "__main__":
 
     tasks = {}
     employee_todos = json.loads(request_todos.text)
-    
+
     for dictionary in employee_todos:
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 

@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ this script that returns todo list progress for employees"""
-from sys import argv
 import json
 import requests
+from sys import argv
+
 
 
 if __name__ == "__main__":

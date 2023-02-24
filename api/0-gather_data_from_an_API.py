@@ -9,7 +9,9 @@ import requests
 
 
 if __name__ == "__main__":
-
+    """
+        send get request for user info
+    """
     request_employee = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{argv[1]}/', timeout=10)
 
@@ -23,8 +25,12 @@ if __name__ == "__main__":
     """
     employee_name = employee.get("name")
 
+    """
+        request list
+    """
     request_todos = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos', timeout=10)
+    
     tasks = {}
 
     employee_todos = json.loads(request_todos.text)

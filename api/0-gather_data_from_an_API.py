@@ -42,7 +42,7 @@ if __name__ == "__main__":
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 
     """
-        name, total number of tasks & completed tasks
+        return name, total number of tasks & completed tasks
     """
     EMPLOYEE_NAME = employee_name
     TOTAL_NUMBER_OF_TASKS = len(tasks)
@@ -51,4 +51,4 @@ if __name__ == "__main__":
         ({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
     for k, v in tasks.items():
         if v is True:
-            print(f"\t {k}")
+            print("\t {}".format(k))

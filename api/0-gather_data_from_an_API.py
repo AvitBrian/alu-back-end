@@ -9,16 +9,16 @@ from sys import argv
 
 if __name__ == "__main__":
     """
-        request user info from API
+        request user info by employee ID
     """
     request_employee = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{argv[1]}/', timeout=10)
     """
-        convert json string to dictionary
+        convert json to dictionary
     """
     employee = json.loads(request_employee.text)
     """
-        extract name from dictionary
+        extract employee name
     """
     employee_name = employee.get("name")
 
@@ -28,21 +28,21 @@ if __name__ == "__main__":
     request_todos = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos', timeout=10)
     """
-        dictionary to store tasks
+        dictionary to store task status in boolean format
     """
     tasks = {}
     """
-        convert json string to dictionary
+        convert json to list of dictionaries
     """
     employee_todos = json.loads(request_todos.text)
     """
-        loop through dictionary to extract tasks
+        loop through dictionary & get completed tasks
     """
     for dictionary in employee_todos:
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 
     """
-        return TODO list progress for a given employee ID
+        name, total number of tasks & completed tasks
     """
     EMPLOYEE_NAME = employee_name
     TOTAL_NUMBER_OF_TASKS = len(tasks)

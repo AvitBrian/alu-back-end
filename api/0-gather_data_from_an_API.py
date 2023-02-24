@@ -12,7 +12,7 @@ if __name__ == "__main__":
         request user info by employee ID
     """
     request_employee = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{argv[1]}/', timeout=10)
+        'https://jsonplaceholder.typicode.com/users/{}/'.format(argv[1]))
     """
         convert json to dictionary
     """
@@ -26,7 +26,7 @@ if __name__ == "__main__":
         request user's TODO list
     """
     request_todos = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{argv[1]}/todos', timeout=10)
+        'https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
     """
         dictionary to store task status in boolean format
     """
@@ -47,8 +47,8 @@ if __name__ == "__main__":
     EMPLOYEE_NAME = employee_name
     TOTAL_NUMBER_OF_TASKS = len(tasks)
     NUMBER_OF_DONE_TASKS = len([k for k, v in tasks.items() if v is True])
-    print(f"Employee {EMPLOYEE_NAME} is done with tasks \
-        ({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
+    print("Employee {} is done with tasks({}/{}):".format(
+        EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, TOTAL_NUMBER_OF_TASKS))
     for k, v in tasks.items():
         if v is True:
             print("\t {}".format(k))

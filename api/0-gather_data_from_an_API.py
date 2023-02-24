@@ -38,12 +38,14 @@ if __name__ == "__main__":
     for dictionary in employee_todos:
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 
+    """printing out the tasks that are completed"""
+    # loops through the dictionary and prints out the title of the task
+
     EMPLOYEE_NAME = employee_name
     TOTAL_NUMBER_OF_TASKS = len(tasks)
     NUMBER_OF_DONE_TASKS = len([k for k, v in tasks.items() if v is True])
 
-    """prints out the tasks that are completed"""
-    # loops through the dictionary and prints out the title of the task
+
 
     print(f"Employee {EMPLOYEE_NAME} is done with tasks \
         ({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")

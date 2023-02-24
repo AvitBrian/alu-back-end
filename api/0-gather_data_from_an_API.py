@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-    this python script returns progress list of todos for a given employee
-    with a defined id.
+    python script that returns TODO list progress for a given employee ID
 """
 import json
 from sys import argv
 import requests
+
 
 
 if __name__ == "__main__":

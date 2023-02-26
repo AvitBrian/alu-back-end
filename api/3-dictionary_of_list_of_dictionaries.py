@@ -1,18 +1,36 @@
 #!/usr/bin/python3
-"""python script that exports data in the JSON format"""
+"""
+Python script that exports data in the JSON format.
+
+Usage:
+    Simply run the script to generate a JSON file containing data for all employees:
+    $ ./1-export_to_JSON.py
+
+Output:
+    A file named 'todo_all_employees.json' containing data for all employees in JSON format.
+"""
+
 import json
 import requests
 
 if __name__ == "__main__":
+    # URL of the API
     url = "https://jsonplaceholder.typicode.com/"
-    users = requests.get(url + "users").json()
 
+    # Retrieve all users
+    users_data = requests.get(url + "users").json()
+
+    # Export data to a JSON file
     with open("todo_all_employees.json", "w") as jsonfile:
-        json.dump({
-            u.get("id"): [{
-                "task": t.get("title"),
-                "completed": t.get("completed"),
-                "username": u.get("username")
-            } for t in requests.get(url + "todos",
-                                    params={"userId": u.get("id")}).json()]
-            for u in users}, jsonfile)
+        # Use a dictionary comprehension to format data for each user
+        users_dict = {
+            user.get("id"): [{
+                "task": task.get("title"),
+                "completed": task.get("completed"),
+                "username": user.get("username")
+            } for task in requests.get(url + "todos", params={"userId": user.get("id")}).json()]
+            for user in users_data
+        }
+
+        # Write data to JSON file
+        json.dump(users_dict, jsonfile)

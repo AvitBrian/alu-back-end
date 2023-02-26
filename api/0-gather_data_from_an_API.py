@@ -1,54 +1,59 @@
 #!/usr/bin/python3
 """
     python script that returns TODO list progress for a given employee ID
+    
+    Args:
+    ----------
+        :param USER_ID: employee ID
+        :param EMPLOYEE_NAME: employee name
+        :param TOTAL_NUMBER_OF_TASKS: total number of tasks
+        :param NUMBER_OF_DONE_TASKS: number of completed tasks
+    
+    Usage:
+    -------------
+    Simply run the script with the employee ID as the first argument:
+    $ ./0-gather_data_from_an_API.py 2
+   
+    Output:
+    -------------
+    Employee Ervin Howell is done with tasks(8/8):
+            distinctio vitae autem nihil ut molestias quo
+            voluptas quo tenetur perspiciatis explicabo natus
+            ...
+
 """
-import json
+
 import requests
 from sys import argv
 
+# Parse command line arguments
+USER_ID = argv[1]
 
-if __name__ == "__main__":
-    """
-        request user info by employee ID
-    """
-    request_employee = requests.get(
-        'https://jsonplaceholder.typicode.com/users/{}/'.format(argv[1]))
-    """
-        convert json to dictionary
-    """
-    employee = json.loads(request_employee.text)
-    """
-        extract employee name
-    """
-    employee_name = employee.get("name")
+# Send HTTP requests to get user and todo data
+users_response = requests.get(
+    f'https://jsonplaceholder.typicode.com/users/{USER_ID}', timeout=10)
+todos_response = requests.get(
+    f'https://jsonplaceholder.typicode.com/users/{USER_ID}/todos', timeout=10)
 
-    """
-        request user's TODO list
-    """
-    request_todos = requests.get(
-        'https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
-    """
-        dictionary to store task status in boolean format
-    """
-    tasks = {}
-    """
-        convert json to list of dictionaries
-    """
-    employee_todos = json.loads(request_todos.text)
-    """
-        loop through dictionary & get completed tasks
-    """
-    for dictionary in employee_todos:
-        tasks.update({dictionary.get("title"): dictionary.get("completed")})
+# Check if both requests were successful
+if users_response.status_code == 200 and todos_response.status_code == 200:
 
-    """
-        return name, total number of tasks & completed tasks
-    """
-    EMPLOYEE_NAME = employee_name
-    TOTAL_NUMBER_OF_TASKS = len(tasks)
-    NUMBER_OF_DONE_TASKS = len([k for k, v in tasks.items() if v is True])
-    print("Employee {} is done with tasks({}/{}):".format(
-        EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS, TOTAL_NUMBER_OF_TASKS))
-    for k, v in tasks.items():
-        if v is True:
-            print("\t {}".format(k))
+    # Extract data from JSON responses
+    user_data = users_response.json()
+    todo_data = todos_response.json()
+
+    # Extract employee name and number of completed tasks
+    EMPLOYEE_NAME = user_data["name"]
+    TOTAL_NUMBER_OF_TASKS = len(todo_data)
+    NUMBER_OF_DONE_TASKS = 0
+    for task in todo_data:
+        if task["completed"] is True:
+            NUMBER_OF_DONE_TASKS += 1
+
+    # Print progress report
+    print(
+        f"Employee {EMPLOYEE_NAME} is done with"
+        f" tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
+    for task in todo_data:
+        if task["completed"] is True:
+            print(f"\t {task['title']}")
